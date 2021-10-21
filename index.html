@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			.container {
+				width: 1000px;
+				margin: 10px auto;
+				padding: 10px;
+			}
+
+			#mytable {
+				width: 100%;
+			}
+
+			.btnArea {
+				margin-top: 10px;
+			}
+
+			#editDlg {
+				position: absolute;
+				border: 1px solid #ccc;
+				box-shadow: 10px 10px 5px #888888;
+				width: 240px;
+				height: 120px;
+				padding: 10px;
+				left:50%;
+				top:50%;
+				margin-left:-120px;
+				margin-top:-60px;
+				display: none;
+				background-color: white;
+				z-index: 10;
+			}
+			#cover{
+				position: absolute;
+				left:0;
+				top:0;
+				width: 100%;
+				height:100%;
+				background-color: rgba(100,100,100,0.5);
+				display: none;
+				z-index: 9;
+			}
+			#sltbox{
+				width: 50%;
+				height: 50px;
+				margin-left: 371px;
+				
+			}
+			#selectit{
+				width: 70px;
+				height: 50px;
+			}
+			
+		</style>
+		<script type="text/javascript">
+			function checkAll() {
+				var subCheckList = document.getElementsByClassName("subCheck");
+				var checkAllInput = document.getElementById("checkAll");
+
+				for (var i = 0; i < subCheckList.length; i++) {
+					var obj = subCheckList[i];
+					obj.checked = checkAllInput.checked;
+				}
+			}
+			function saveBtn(){
+				
+				var name= document.getElementById("name").value;
+				var age= document.getElementById("age").value;
+				var tbody=document.getElementById("tb");
+				debugger;
+				var id=document.getElementById("id").value;
+				if(id){
+					//编辑代码
+					var subCheckArray = document.getElementsByClassName("subCheck");
+
+					// debugger;
+					for(var i =0;i<subCheckArray.length;i++){
+						var subCheckObj=subCheckArray[i];
+						var myId = subCheckObj.parentNode.parentNode.children[1].innerHTML;
+						if(myId==id){
+							subCheckObj.parentNode.parentNode.children[2].innerHTML=name;
+							subCheckObj.parentNode.parentNode.children[3].innerHTML=age;
+						}
+					}
+					
+				}else{
+					//新增代码
+					var idx=tbody.childElementCount+1;
+					var trStr='<tr>'+
+					'	<td><input type="checkbox" class="subCheck" name="xuanze" value=""></td>'+
+					'	<td>'+idx+'</td>'+
+					'	<td>'+name+'</td>'+
+					'	<td>'+age+'</td>'+
+					'</tr>';
+					tbody.innerHTML=tbody.innerHTML+trStr;
+				}
+				
+				
+				
+				hideDlg();
+			}
+
+			function newBtn() {
+				document.getElementById("id").value="";
+				document.getElementById("name").value="";
+				document.getElementById("age").value="";
+				showDlg();
+			}
+			function cancelBtn(){
+				hideDlg();
+			}
+			function editBtn(){
+				var subCheckArray = document.getElementsByClassName("subCheck");
+				var checkedCnt=0;
+				var checkedInput=null;
+				// debugger;
+				for(var i =0;i<subCheckArray.length;i++){
+					var subCheckObj=subCheckArray[i];
+					if(subCheckObj.checked){
+						checkedCnt++;
+						checkedInput=subCheckObj;
+					}
+				}
+				if(checkedCnt!=1){
+					alert("请选择一条数据进行编辑");
+					return;
+				}
+				var name=checkedInput.parentNode.parentNode.children[2].innerHTML;
+				var age=checkedInput.parentNode.parentNode.children[3].innerHTML;
+				document.getElementById("id").value=checkedInput.parentNode.parentNode.children[1].innerHTML;
+				document.getElementById("name").value=name;
+				document.getElementById("age").value=age;
+				showDlg();
+			}
+			
+			function showDlg(){
+				document.getElementById("editDlg").style.display="block";
+				document.getElementById("cover").style.display="block";
+			}
+			function hideDlg(){
+				document.getElementById("editDlg").style.display="none";
+				document.getElementById("cover").style.display="none";
+			}
+			function dlbox(){
+				//removeEventListener(obj=true);
+				var count=0;
+				var a = document.getElementsByName("xuanze");
+				var tbody=document.getElementById("tb");
+				
+				for (let i = 1; i < a.length; i++) {
+					if(a[i].checked){
+						var node =a[i--].parentNode.parentNode;
+						//alert(a[i].parentNode.parentNode.innerHTML)
+						tbody.removeChild(node)
+					}
+				}
+		
+			}
+			 function sltbtn(){
+			            //  var qaq=null;
+			            // debugger;
+			                var content = document.getElementById("sltbox").value
+			                var subCheckArray = document.getElementsByClassName("subCheck");
+			                // debugger;
+			                for(var i =0;i<subCheckArray.length;i++){
+			                    var subCheckObj=subCheckArray[i];
+			                    var myId = subCheckObj.parentNode.parentNode.children[1].innerHTML;
+			                    
+			                    if(content== myId){
+								;
+								// var age=checkedInput.parentNode.parentNode.children[3].innerHTML;
+			                        alert(subCheckObj.parentNode.parentNode.children[2].innerHTML
+			
+			);
+			                         alert(subCheckObj.parentNode.parentNode.children[3].innerHTML)
+			                    }
+			                
+			                }
+			// 	// debugger;
+			// 	// filter = input.value.toUpperCase();	//不区分大小写
+			// 	var qaq=document.getElementsByClassName("subCheck");
+			// var name2=qaq.parentNode.parentNode.children[2];
+			// var age2=qaq.parentNode.parentNode.children[3];
+			// // debugger;
+			// var table,tr,td
+			//   table=document.getElementById("tb");
+			//   // debugger;
+			//   tr=table.getElementsByTagName("tr");
+			  
+			  
+			
+			// 	for(var i=0; i<tr.length;i++){
+			// 		td=tr[i].getElementsByTagName("td")[0];
+			// 		if(td){
+			// 			alert(tr.length);
+			// 			// if(td.innerHTML.indexOf(content) > -1){
+							
+			// 			// 	alert("1")
+			// 			}
+			// 		}
+					
+			// 	}
+				
+				
+				
+				
+				// for(var i=0; i<td.length;i++){
+				// 	if(td[i].innerHTML.indexOf(content)!=-1){
+				// 		for(var j=0;j<td.length;j++){
+				// 			td[j].parentNode.className = "bbb"
+				// 		}
+				// 		td[i].parentNode.className="aaa"
+				// 	}
+				// }
+			}
+			
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<table border="1" id="mytable" cellpadding="10" cellspacing="0" style="font-size: 20px;">
+				 
+					<td><input type="checkbox" id="checkAll" onclick="checkAll();" name="xuanze" value=""></td>
+					<td>序号</td>
+					<td>姓名</td>
+					<td>年龄</td>
+
+				</tr>
+				<tbody id="tb">
+					<tr>
+						<td><input type="checkbox" class="subCheck" name="xuanze" value="1"></td>
+						<td>1</td>
+						<td>张三</td>
+						<td>23</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" class="subCheck" name="xuanze" value="2"></td>
+						<td>2</td>
+						<td>张三</td>
+						<td>23</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="btnArea">
+				<button type="button" onclick="newBtn()">新增</button>
+				<button type="button" onclick="editBtn();">修改</button>
+				<button type="button" id="dl" onclick="dlbox()">删除</button>
+			</div>
+			<div id="cover"></div>
+		</div>
+
+		<!--编辑dialog-->
+		<div id="editDlg">
+			<input type="hidden" name="" id="id"  />
+			姓名:<input type="text" name="" id="name" value="" /><br>
+			年龄:<input type="number" name="" id="age" value="" /><br>
+			<button type="button" onclick="saveBtn()">保存</button>
+			<button type="button" onclick="cancelBtn();">取消</button>
+		</div>
+		<div class="chazhao">
+			<input type="text" name="" id="sltbox"  value="搜索" onfocus="this.value=''" />
+			<button type="button" id="selectit" onclick="sltbtn()">搜索</button>
+		
+		</div>
+
+	</body>
+</html>
